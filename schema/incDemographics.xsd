@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>CallReport Input Demographic Schema</xs:documentation>
+		<xs:appinfo>
+			<major>7</major>
+			<minor>0</minor>
+			<build>0</build>
+			<revision>0</revision>
+		</xs:appinfo>
+	</xs:annotation>
+	<xs:complexType name="CT_demographicsidentity">
+		<xs:annotation>
+			<xs:documentation>Specific Identity details for Applicant</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="type" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identity Type Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicsidentitytype</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_demographicsperson">
+		<xs:annotation>
+			<xs:documentation>Customer Details for Applicant</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="customerstatus" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Customer Applicant Status Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicscustomerstatus</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="maritalstatus" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Applicant's Marital Status Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicsmaritalstatus</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="totaldependents" type="xs:unsignedInt" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Total number of dependent children</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="language" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Language Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicslanguage</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="identity" type="CT_demographicsidentity" minOccurs="0" maxOccurs="4">
+				<xs:annotation>
+					<xs:documentation>Set of types of identity provided by the Applicant</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_demographicsaccommodation">
+		<xs:annotation>
+			<xs:documentation>Accommodation details for Applicant</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="type" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Accommodation Type Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicsaccommodationtype</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="propertyvalue" type="xs:unsignedInt" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Estimate of how much the property is worth</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="mortgagebalance" type="xs:unsignedInt" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The total amount of the mortgage still to be repaid</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="monthlyrental" type="xs:unsignedInt" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The price that the applicant pays the home's owner for using the home</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="residentialstatus" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Residential Status Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicsresidentialstatus</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_demographicsemail">
+		<xs:annotation>
+			<xs:documentation>Specific Email details for Applicant</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="type" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Email Type Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicsemailtype</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="address" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Email address</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_demographicstelephone">
+		<xs:annotation>
+			<xs:documentation>Specific Telephone details for Applicant</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="type" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Telephone Type Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicstelephonetype</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="std" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Telephone STD Code</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="number" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Telephone Number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="11"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="extension" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Telephone Extension Number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_demographicsincome">
+		<xs:annotation>
+			<xs:documentation>Income details for Applicant</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="primary" type="CT_demographicsincomedetails" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Applicant's Main Income details</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="additional" type="CT_demographicsincomedetails" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Set of details for any additional income</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_demographicsexpenditure">
+		<xs:annotation>
+			<xs:documentation>Applicant's Commitments and Expenditures</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="totaldebitcards" type="xs:unsignedInt" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Total number of cheque of debit cards linked directly to the customer's bank account</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="totalcreditcards" type="xs:unsignedInt" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Total number of credit or charge cards used to purchase goods and services on credit</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="monthlyunsecuredamount" type="xs:unsignedInt" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Monthly unsecured financial obligation owed to creditors</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_demographicsaccount">
+		<xs:annotation>
+			<xs:documentation>Applicant's Account Details</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="sortcode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Bank sort code of main banking relationship</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="6"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="accountnumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Account number of main banking relationship</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="timeatbank" type="xs:duration" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Total number of months with the current bank</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="paymentmethod" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Account's Payment Method Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicspaymentmethod</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="financetype" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Finance/Non Finance Type Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicsfinancetype</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_demographicsemployment">
+		<xs:annotation>
+			<xs:documentation>Applicant's Employment Details</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="occupation" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Occupation Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicsoccupationtype</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="employmentstatus" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Employment Status Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicsemploymentstatus</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="expirydate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Employment Expiry Data - dependent on the Employment Status Code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="employmentrecency" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Employment Recency Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicsemploymentrecencytype</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="employercategory" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Employer Category Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicsemployercategory</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="timeatcurrentemployer" type="xs:duration" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Total number of months with the current employer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_demographicsincomedetails">
+		<xs:annotation>
+			<xs:documentation>Income details (either primary of additional incomes)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="amount" type="xs:unsignedInt" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Amount of income received according to frequency</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="type" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Income Type Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicsincometype</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="paymentmethod" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Income Payment Method Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicsincomepaymentmethod</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="frequency" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Income Frequency Code</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = demographicsincomefrequency</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_applicantdemographics">
+		<xs:annotation>
+			<xs:documentation>Input demographic information for an applicant - to be provided with the request details.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="person" type="CT_demographicsperson" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Customer Details for Applicant</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="accommodation" type="CT_demographicsaccommodation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Accommodation details for Applicant</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="contact" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Customer Contact Details for Applicant</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="email" type="CT_demographicsemail" minOccurs="0" maxOccurs="3">
+							<xs:annotation>
+								<xs:documentation>Set of email contact details</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="telephone" type="CT_demographicstelephone" minOccurs="0" maxOccurs="4">
+							<xs:annotation>
+								<xs:documentation>Set of telephone contact details</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="employment" type="CT_demographicsemployment" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Applicant's Employment Details</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="account" type="CT_demographicsaccount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Applicant's Account Details</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="expenditure" type="CT_demographicsexpenditure" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Applicant's Commitments and Expenditures</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="income" type="CT_demographicsincome" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Income details for Applicant</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>CallReport Common System Schema</xs:documentation>
+		<xs:appinfo>
+			<major>7</major>
+			<minor>1</minor>
+			<build>0</build>
+			<revision>0</revision>
+		</xs:appinfo>
+	</xs:annotation>
+	<xs:include schemaLocation="incDemographics.xsd"/>
+	<xs:simpleType name="ST_bit">
+		<xs:annotation>
+			<xs:documentation>1/0, implying yes/no, true/false</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:unsignedByte">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ST_guid">
+		<xs:annotation>
+			<xs:documentation>Globally Unique Identifier in standard text form</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ST_balorlim">
+		<xs:annotation>
+			<xs:documentation>Balance or credit limit applied for</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:unsignedInt">
+			<xs:maxInclusive value="999999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ST_yourreference">
+		<xs:annotation>
+			<xs:documentation>Your Reference will allow you to include a reference which can be used to internally identify applications</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+			<xs:whiteSpace value="preserve"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ST_amendmentname">
+		<xs:annotation>
+			<xs:documentation>Identifies the scope and type of amendment</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="balorlim"/>
+			<xs:pattern value="term"/>
+			<xs:pattern value="applicant\[\d+\]/address"/>
+			<xs:pattern value="applicant\[\d+\]/name"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CT_address">
+		<xs:annotation>
+			<xs:documentation>Structure containing an address</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="abodeno" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Abode name or number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="buildingno" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Building number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="12"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="buildingname" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Building name</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="street1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Street 1</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="street2" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Street 2</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="sublocality" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Sublocality</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="locality" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>District or locality</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="posttown" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Town</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="25"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="postcode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Postcode</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="8"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_inputaddress">
+		<xs:annotation>
+			<xs:documentation>Input structure for a single line address identified as either current or previous</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="CT_address">
+				<xs:sequence>
+					<xs:element name="startdate" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The date the applicant moved into the residence</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="enddate" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The date the applicant moved out of the residence</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="duration" type="xs:duration" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Duration of residency</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CT_inputname">
+		<xs:annotation>
+			<xs:documentation>Name of an applicant</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="title" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Title</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="2"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="forename" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Forename</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="othernames" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Middle names / initials</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="surname">
+				<xs:annotation>
+					<xs:documentation>Surname</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="2"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="suffix" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Suffix</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_inputamendment">
+		<xs:annotation>
+			<xs:documentation>Input structure for amendment to balance/term/name/address</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="balorlim" type="ST_balorlim" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Change to balance or credit limit</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="term" type="xs:duration" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Change to term of loan</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="address" type="CT_inputaddress" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional address details</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="CT_inputname" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional name details</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="amendmentname" type="ST_amendmentname" use="required">
+			<xs:annotation>
+				<xs:documentation>Name of node that amendment applies to</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="amendmenttype" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Type of amendment - update or insert</xs:documentation>
+				<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = amendmenttype</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="CT_amendsubsequent">
+		<xs:annotation>
+			<xs:documentation>Data required on input to an amended subsequent search request</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="origsrchid" type="ST_guid">
+				<xs:annotation>
+					<xs:documentation>Original report search id</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="amendments" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Amended subsequent search amendments</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="amendment" type="CT_inputamendment" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Set of amended subsequent search type amendments</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="schemaversion" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>The version of the schema that is being adhered to. This should be in the form Major.Minor E.g. 7.0</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="datasets" type="xs:unsignedInt" use="required">
+			<xs:annotation>
+				<xs:documentation>Bitmask field indicating which datasets are to be returned. NB Some datasets are required to be returned or controlled via the admin area and therefore not covered within this bitmask.</xs:documentation>
+				<xs:documentation>Bit0 - 1 indicates that the summary element will be returned.</xs:documentation>
+				<xs:documentation>Bit1 - 1 indicates that the addressconfs element will be returned.</xs:documentation>
+				<xs:documentation>Bit2 - 1 indicates that the judgments element will be returned.</xs:documentation>
+				<xs:documentation>Bit3 - 1 indicates that the bais element will be returned.</xs:documentation>
+				<xs:documentation>Bit4 - 1 indicates that the searches element will be returned.</xs:documentation>
+				<xs:documentation>Bit5 - 1 indicates that the addresslinks element will be returned.</xs:documentation>
+				<xs:documentation>Bit6 - 1 indicates that the associatelinks element will be returned.</xs:documentation>
+				<xs:documentation>Bit7 - 1 indicates that the accs element will be returned.</xs:documentation>
+				<xs:documentation>It is intended that in future releases this bitmask can be used to configure which elements are returned.</xs:documentation>
+				<xs:documentation>In this version a static value of 255 has to be passed to ensure future compatability.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="CT_searchapplicant">
+		<xs:annotation>
+			<xs:documentation>A single applicant specifying between one to two names and one to three addresses (for API requests)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="address" type="CT_inputaddress" maxOccurs="3">
+				<xs:annotation>
+					<xs:documentation>Set of addresses (current and previous) for a specific applicant</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="CT_inputname" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>Set of names (current and aliases) for a specific applicant</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dob" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Applicant's date of birth</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="hho" type="ST_bit" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A value of 1 indicates a household override check is requested for the applicant</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tpoptout" type="ST_bit" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A value of 1 indicates that the applicant has opted out of use of third party data</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="applicantdemographics" type="CT_applicantdemographics" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Demographic information for the applicant</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_searchrequest">
+		<xs:annotation>
+			<xs:documentation>Standard credit report request</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="applicant" type="CT_searchapplicant" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>Applicant details structure</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="score" type="ST_bit" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A value of 1 indicates that a score has been requested</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="purpose" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Credit request search purpose</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = searchpurpose</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="credittype" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Credit type</xs:documentation>
+					<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = credittype</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="balorlim" type="ST_balorlim" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Balance or credit limit applied for</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="term" type="xs:duration" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Term of loan applied for</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="transient" type="ST_bit" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A value of 1 indicates that no financial association will be generated from the application (transient association)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="autosearch" type="ST_bit" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A value of 1 indicates that auto-searching of undeclared addresses has been requested</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="autosearchmaximum" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The maximum number of addresses to auto-search</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:unsignedInt">
+						<xs:minInclusive value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="schemaversion" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>The version of the schema that is being adhered to. This should be in the form Major.Minor E.g. 7.0</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="datasets" type="xs:unsignedInt" use="required">
+			<xs:annotation>
+				<xs:documentation>Bitmask field indicating which datasets are to be returned. NB Some datasets are required to be returned or controlled via the admin area and therefore not covered within this bitmask.</xs:documentation>
+				<xs:documentation>Bit0 - 1 indicates that the summary element will be returned.</xs:documentation>
+				<xs:documentation>Bit1 - 1 indicates that the addressconfs element will be returned.</xs:documentation>
+				<xs:documentation>Bit2 - 1 indicates that the judgments element will be returned.</xs:documentation>
+				<xs:documentation>Bit3 - 1 indicates that the bais element will be returned.</xs:documentation>
+				<xs:documentation>Bit4 - 1 indicates that the searches element will be returned.</xs:documentation>
+				<xs:documentation>Bit5 - 1 indicates that the addresslinks element will be returned.</xs:documentation>
+				<xs:documentation>Bit6 - 1 indicates that the associatelinks element will be returned.</xs:documentation>
+				<xs:documentation>Bit7 - 1 indicates that the accs element will be returned.</xs:documentation>
+				<xs:documentation>It is intended that in future releases this bitmask can be used to configure which elements are returned.</xs:documentation>
+				<xs:documentation>In this version a static value of 255 has to be passed to ensure future compatability.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="CT_inputaddressandmatches">
+		<xs:annotation>
+			<xs:documentation>Input structure for the input address along with a series of address matches for a specific address</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="addressinput" type="CT_address">
+				<xs:annotation>
+					<xs:documentation>Address details as entered by the user</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fullmatches">
+				<xs:annotation>
+					<xs:documentation>Contains a set of matches for this specific address</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="fullmatch" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Contains address details as found on the database as well as a series of name matching info</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="addressmatch">
+										<xs:annotation>
+											<xs:documentation>Matched address details as recorded on the database</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:complexContent>
+												<xs:extension base="CT_address">
+													<xs:sequence>
+														<xs:element name="domicileid" type="xs:int" minOccurs="0">
+															<xs:annotation>
+																<xs:documentation>Domicile identifier</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+													</xs:sequence>
+												</xs:extension>
+											</xs:complexContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="name" minOccurs="0" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>Input name details and a set of name matches for either the primary name or an alias</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="nameinput" type="CT_inputname">
+													<xs:annotation>
+														<xs:documentation>Name details as entered by the user</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="namematches">
+													<xs:annotation>
+														<xs:documentation>Contains a set of name matches for this specific named individual</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="namematch" minOccurs="0" maxOccurs="unbounded">
+																<xs:annotation>
+																	<xs:documentation>Contains name details as found on the database for an individual match</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:complexContent>
+																		<xs:extension base="CT_inputname">
+																			<xs:sequence>
+																				<xs:element name="residenceid" type="xs:int">
+																					<xs:annotation>
+																						<xs:documentation>Residency identifier</xs:documentation>
+																					</xs:annotation>
+																				</xs:element>
+																				<xs:element name="dnaid" type="xs:int" minOccurs="0">
+																					<xs:annotation>
+																						<xs:documentation>Data DNA Identifier</xs:documentation>
+																					</xs:annotation>
+																				</xs:element>
+																				<xs:element name="dob" type="xs:date" minOccurs="0">
+																					<xs:annotation>
+																						<xs:documentation>Date of birth</xs:documentation>
+																					</xs:annotation>
+																				</xs:element>
+																			</xs:sequence>
+																			<xs:attribute name="selected" type="ST_bit">
+																				<xs:annotation>
+																					<xs:documentation>A value of 1 indicates that this individual match is selected</xs:documentation>
+																				</xs:annotation>
+																			</xs:attribute>
+																		</xs:extension>
+																	</xs:complexContent>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attribute name="reporttype" type="xs:string">
+															<xs:annotation>
+																<xs:documentation>Used to indicate type of report available for a given applicant name and address within the picklist.</xs:documentation>
+																<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = reporttype</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+														<xs:attribute name="matchstatus" type="xs:string">
+															<xs:annotation>
+																<xs:documentation>Status of user's selection for a given applicant's name and address within the picklist</xs:documentation>
+																<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = matchstatus</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attribute name="nameid" type="xs:unsignedByte">
+												<xs:annotation>
+													<xs:documentation>Name identifier</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="selected" type="ST_bit">
+									<xs:annotation>
+										<xs:documentation>A value of 1 indicates that this address match is selected</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="reporttype" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Used to indicate the type of report available for a given applicant address within the picklist.</xs:documentation>
+							<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = reporttype</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="matchstatus" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Status of user's selection for a given applicant address within the picklist</xs:documentation>
+							<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = matchstatus</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="addressid" type="xs:unsignedByte">
+			<xs:annotation>
+				<xs:documentation>Address identifier</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="CT_picklistapplicant">
+		<xs:annotation>
+			<xs:documentation>Picklist structure for a single applicant</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="address" type="CT_inputaddressandmatches" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Set of full matches and input details relating to a single address (current or previous)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:unsignedByte">
+			<xs:annotation>
+				<xs:documentation>Applicant identifier</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="reporttype" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Used to indicate type of report available for a given applicant within the picklist.</xs:documentation>
+				<xs:documentation>The list of possible values can be obtained from the web method LookupData07a table id = reporttype</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="CT_linkrequest">
+		<xs:annotation>
+			<xs:documentation>Format for requesting address or associate link reports</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="origsrchid" type="ST_guid">
+				<xs:annotation>
+					<xs:documentation>Original report search id</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="navlinkid" type="ST_guid">
+				<xs:annotation>
+					<xs:documentation>Link navigation identifier of the link to be followed (either Address or Associate Link)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="schemaversion" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>The version of the schema that is being adhered to. This should be in the form Major.Minor E.g. 7.0</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="datasets" type="xs:unsignedInt" use="required">
+			<xs:annotation>
+				<xs:documentation>Bitmask field indicating which datasets are to be returned. NB Some datasets are required to be returned or controlled via the admin area and therefore not covered within this bitmask.</xs:documentation>
+				<xs:documentation>Bit0 - 1 indicates that the summary element will be returned.</xs:documentation>
+				<xs:documentation>Bit1 - 1 indicates that the addressconfs element will be returned.</xs:documentation>
+				<xs:documentation>Bit2 - 1 indicates that the judgments element will be returned.</xs:documentation>
+				<xs:documentation>Bit3 - 1 indicates that the bais element will be returned.</xs:documentation>
+				<xs:documentation>Bit4 - 1 indicates that the searches element will be returned.</xs:documentation>
+				<xs:documentation>Bit5 - 1 indicates that the addresslinks element will be returned.</xs:documentation>
+				<xs:documentation>Bit6 - 1 indicates that the associatelinks element will be returned.</xs:documentation>
+				<xs:documentation>Bit7 - 1 indicates that the accs element will be returned.</xs:documentation>
+				<xs:documentation>It is intended that in future releases this bitmask can be used to configure which elements are returned.</xs:documentation>
+				<xs:documentation>In this version a static value of 255 has to be passed to ensure future compatability.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="CT_jobdetails">
+		<xs:annotation>
+			<xs:documentation>Additional details related to the operation </xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="searchid" type="ST_guid" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Unique identifier for Credit Reports - this is required for subsequent enquiries</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="cast" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Callcredit System Specific Information</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pstv" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Callcredit System Specific Information</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ls" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Callcredit System Specific Information</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="searchdate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date and time that Search was carried out</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="CT_payload">
+		<xs:annotation>
+			<xs:documentation>Container for client's own data - returned in the response message</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Any elements or attributes can be placed within the payload container</xs:documentation>
+				</xs:annotation>
+			</xs:any>
+		</xs:sequence>
+		<xs:anyAttribute namespace="##any" processContents="lax"/>
+	</xs:complexType>
+	<xs:complexType name="CT_apipicklist">
+		<xs:annotation>
+			<xs:documentation>Picklist data structure for passing details of multiple name/address matches (for API use)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="applicant" type="CT_picklistapplicant" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>Input and matched name and address details for an applicant (primary or secondary)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="maxaddressitems" type="xs:unsignedByte" use="required">
+			<xs:annotation>
+				<xs:documentation>Maximum number of address items in picklist</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxnameitems" type="xs:unsignedByte" use="required">
+			<xs:annotation>
+				<xs:documentation>Maximum number of name items in picklist (for each address)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="picklist" type="ST_bit" use="required">
+			<xs:annotation>
+				<xs:documentation>A value of 1 indicates that picklists are switched on</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="regenerated" type="ST_bit" use="optional">
+			<xs:annotation>
+				<xs:documentation>If this attribute is present and has a value of 1 then the picklist has been re-generated and any selection must be redone.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="CT_Search">
+		<xs:annotation>
+			<xs:documentation>Request container type for Credit Search and BSB Web Methods</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SearchDefinition" type="CT_SearchDefinition" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_SearchDefinition">
+		<xs:annotation>
+			<xs:documentation>Search Definition container type for Credit Search and BSB Web Methods</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="payload" type="CT_payload" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Container for client's own data - returned in the response message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="yourreference" type="ST_yourreference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Your Reference will allow you to include a reference which can be used to internally identify applications</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="creditrequest" type="CT_searchrequest" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Set of applicant name and address details to search for in addition to search related parameters</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="picklist" type="CT_apipicklist" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name and address picklist</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="token" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Reserved for future use</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="64"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_SubsequentSearch">
+		<xs:annotation>
+			<xs:documentation>Request container type for Subsequent Search and BSB Web Methods</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SearchDefinition" type="CT_SubsequentSearchDefinition" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_SubsequentSearchDefinition">
+		<xs:annotation>
+			<xs:documentation>Search Definition container type for Subsequent Search Api Request</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="payload" type="CT_payload" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Container for client's own data - returned in the response message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="yourreference" type="ST_yourreference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Your Reference will allow you to include a reference which can be used to internally identify applications</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="secondaryrequest" type="CT_amendsubsequent" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Set of subsequent search parameters to search</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_LinkSearch">
+		<xs:annotation>
+			<xs:documentation>Request container type for Address and Associate Link Searches</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SearchDefinition" type="CT_LinkSearchDefinition" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_LinkSearchDefinition">
+		<xs:annotation>
+			<xs:documentation>Search Definition container type for Address and Associate Link Searches</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="payload" type="CT_payload" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Container for client's own data - returned in the response message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="yourreference" type="ST_yourreference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Your Reference will allow you to include a reference which can be used to internally identify applications</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="linkrequest" type="CT_linkrequest" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Set of link search parameters to search</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_LookupDataResponse">
+		<xs:annotation>
+			<xs:documentation>Response type for Lookup Data Web Method</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LookupDataResult" type="CT_LookupDataResult" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_LookupDataResult">
+		<xs:annotation>
+			<xs:documentation>Response type for Lookup Data Web Method</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="table" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="row" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:attribute name="value" use="required"/>
+								<xs:attribute name="desc" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="id" type="xs:string" use="required"/>
+					<xs:attribute name="desc" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="version" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="CT_TestResponse">
+		<xs:annotation>
+			<xs:documentation>Response type for Test Web Method</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TestResult" type="CT_TestResult" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_TestResult">
+		<xs:annotation>
+			<xs:documentation>Response type for Lookup Data Web Method</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="datetime" type="xs:dateTime"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="callcreditheaders">
+		<xs:complexType>
+			<xs:annotation>
+				<xs:documentation>Logon Credentials supplied as part of the Soap Header</xs:documentation>
+			</xs:annotation>
+			<xs:sequence>
+				<xs:element name="company" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The login name of the organisation</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="username" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The user's login identity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="password" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The user's password</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

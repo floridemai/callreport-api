@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ccr="urn:callcredit.co.uk/soap:callreport7" xmlns="urn:callcredit.co.uk/soap:callreport7" targetNamespace="urn:callcredit.co.uk/soap:callreport7" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>CallReport System Schema</xs:documentation>
+		<xs:appinfo>
+			<ccr:major>7</ccr:major>
+			<ccr:minor>1</ccr:minor>
+			<ccr:build>0</ccr:build>
+			<ccr:revision>0</ccr:revision>
+		</xs:appinfo>
+	</xs:annotation>
+	<xs:include schemaLocation="incCreditReport.xsd"/>
+	<xs:complexType name="CT_SearchResponse">
+		<xs:annotation>
+			<xs:documentation>Response type for Credit Search Web Methods</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SearchResult" type="CT_SearchResult" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CT_SearchResult">
+		<xs:annotation>
+			<xs:documentation>Response type for Credit Search Web Methods</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="jobdetails" type="CT_jobdetails" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Operation specific details</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="payload" type="CT_payload" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Container for client's own data - returned in the response message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="yourreference" type="ST_yourreference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Your Reference will allow you to include a reference which can be used to internally identify applications</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="linkrequest" type="CT_linkrequest" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Request for an API based Address or Associate Link report.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="secondaryrequest" type="CT_amendsubsequent" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Request for a subsequent enquiry (including subsequent link enquiries) including an optional set of amendments to the previously carried out Search</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="creditrequest" type="CT_searchrequest" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Set of applicant name and address details to search for in addition to search related parameters</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="picklist" type="CT_apipicklist" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name and address picklist</xs:documentation>
+				</xs:annotation>
+			</xs:element>      
+			<xs:element name="token" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Reserved for future use</xs:documentation>
+				</xs:annotation>
+					<xs:simpleType>
+					  <xs:restriction base="xs:string">
+						<xs:maxLength value="64"/>
+					  </xs:restriction>
+					</xs:simpleType>
+			</xs:element>
+      <xs:element name="creditreport" type="CT_creditreport" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Set of applicant credit reports</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Search07a" type="ccr:CT_Search">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for a Credit Report Request</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="Search07aResponse" type="ccr:CT_SearchResponse">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for a Credit Report Response</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="AddressLinkSearch07a" type="ccr:CT_LinkSearch">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for a Credit Report Address Link Search Request</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="AddressLinkSearch07aResponse" type="ccr:CT_SearchResponse">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for a Credit Report Address Link Search Response</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="AssociateLinkSearch07a" type="ccr:CT_LinkSearch">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for a Credit Report Associate Link Search Request</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="AssociateLinkSearch07aResponse" type="ccr:CT_SearchResponse">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for a Credit Report Associate Link Search Response</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="SubsequentSearch07a" type="ccr:CT_SubsequentSearch">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for a Subsequent Credit Report Search Request</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="SubsequentSearch07aResponse" type="ccr:CT_SearchResponse">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for a Subsequent Credit Report Search Response</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="SubsequentAddressLinkSearch07a" type="ccr:CT_SubsequentSearch">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for a Subsequent Credit Report Address Link Search Request</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="SubsequentAddressLinkSearch07aResponse" type="ccr:CT_SearchResponse">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for a Subsequent Credit Report Address Link Search Response</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="SubsequentAssociateLinkSearch07a" type="ccr:CT_SubsequentSearch">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for a Subsequent Credit Report Associate Link Search Request</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="SubsequentAssociateLinkSearch07aResponse" type="ccr:CT_SearchResponse">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for a Subsequent Credit Report Associate Link Search Response</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ChangePassword07a">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for a Change Password Request</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="newpwd" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>User's new password</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="confirmpwd" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>If this optional element is provided then a check is carried out to ensure that this matches the new password element.  Facilitates a commonly used front end.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChangePassword07aResponse">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for a Change Password Response</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="pwdchanged" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>1 indicates a successful change, 0 indicates failure</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LookupData07a">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for Lookup Data Request</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="LookupData07aResponse" type="CT_LookupDataResponse">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for Lookup Data Response</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="Test07a">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for Lookup Data Request</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="Test07aResponse" type="CT_TestResponse">
+		<xs:annotation>
+			<xs:documentation>Global element declaration for Testing System</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

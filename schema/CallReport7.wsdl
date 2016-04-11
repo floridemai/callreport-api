@@ -1,0 +1,314 @@
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="urn:callcredit.co.uk/soap:callreport7" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="urn:callcredit.co.uk/soap:callreport7" targetNamespace="urn:callcredit.co.uk/soap:callreport7">
+	<wsdl:documentation>
+		<wsdl:annotation>
+			<wsdl:documentation>CallReport v7.0.0.0 WSDL Definition</wsdl:documentation>
+			<wsdl:appinfo>
+				<wsdl:major>7</wsdl:major>
+				<wsdl:minor>0</wsdl:minor>
+				<wsdl:build>0</wsdl:build>
+				<wsdl:revision>3</wsdl:revision>
+			</wsdl:appinfo>
+		</wsdl:annotation>
+	</wsdl:documentation>
+	<wsdl:import location="CallReport7.xsd" namespace="urn:callcredit.co.uk/soap:callreport7" />
+	<wsdl:types/>
+	<wsdl:message name="callcreditheaders">
+		<wsdl:part name="callcreditheaders" element="tns:callcreditheaders"/>
+	</wsdl:message>
+	<wsdl:message name="Search07aSoapIn">
+		<wsdl:part name="parameters" element="tns:Search07a"/>
+	</wsdl:message>
+	<wsdl:message name="Search07aSoapOut">
+		<wsdl:part name="parameters" element="tns:Search07aResponse"/>
+	</wsdl:message>
+	<wsdl:message name="AddressLink07aSoapIn">
+		<wsdl:part name="parameters" element="tns:AddressLinkSearch07a" />
+	</wsdl:message>
+	<wsdl:message name="AddressLink07aSoapOut">
+		<wsdl:part name="parameters" element="tns:AddressLinkSearch07aResponse"/>
+	</wsdl:message>
+	<wsdl:message name="AssociateLink07aSoapIn">
+		<wsdl:part name="parameters" element="tns:AssociateLinkSearch07a" />
+	</wsdl:message>
+	<wsdl:message name="AssociateLink07aSoapOut">
+		<wsdl:part name="parameters" element="tns:AssociateLinkSearch07aResponse"/>
+	</wsdl:message>
+	<wsdl:message name="Subsequent07aSoapIn">
+		<wsdl:part name="parameters" element="tns:SubsequentSearch07a" />
+	</wsdl:message>
+	<wsdl:message name="Subsequent07aSoapOut">
+		<wsdl:part name="parameters" element="tns:SubsequentSearch07aResponse"/>
+	</wsdl:message>
+	<wsdl:message name="SubsequentAddressLink07aSoapIn">
+		<wsdl:part name="parameters" element="tns:SubsequentAddressLinkSearch07a" />
+	</wsdl:message>
+	<wsdl:message name="SubsequentAddressLink07aSoapOut">
+		<wsdl:part name="parameters" element="tns:SubsequentAddressLinkSearch07aResponse"/>
+	</wsdl:message>
+	<wsdl:message name="SubsequentAssociateLink07aSoapIn">
+		<wsdl:part name="parameters" element="tns:SubsequentAssociateLinkSearch07a" />
+	</wsdl:message>
+	<wsdl:message name="SubsequentAssociateLink07aSoapOut">
+		<wsdl:part name="parameters" element="tns:SubsequentAssociateLinkSearch07aResponse"/>
+	</wsdl:message>
+	<wsdl:message name="ChangePassword07aSoapIn">
+		<wsdl:part name="parameters" element="tns:ChangePassword07a"/>
+	</wsdl:message>
+	<wsdl:message name="ChangePassword07aSoapOut">
+		<wsdl:part name="parameters" element="tns:ChangePassword07aResponse"/>
+	</wsdl:message>
+	<wsdl:message name="LookupData07aSoapIn">
+		<wsdl:part name="parameters" element="tns:LookupData07a"/>
+	</wsdl:message>
+	<wsdl:message name="LookupData07aSoapOut">
+		<wsdl:part name="parameters" element="tns:LookupData07aResponse"/>
+	</wsdl:message>
+	<wsdl:message name="Test07aSoapIn">
+		<wsdl:part name="parameters" element="tns:Test07a"/>
+	</wsdl:message>
+	<wsdl:message name="Test07aSoapOut">
+		<wsdl:part name="parameters" element="tns:Test07aResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="Soap">
+		<wsdl:operation name="Search07a">
+			<wsdl:documentation>Method to Request a Credit Report (based on the requested Search Purpose)</wsdl:documentation>
+			<wsdl:input message="tns:Search07aSoapIn"/>
+			<wsdl:output message="tns:Search07aSoapOut"/>
+		</wsdl:operation>
+		<wsdl:operation name="AddressLinkSearch07a">
+			<wsdl:documentation>Method to Request a Credit Report for the specified Address Link (requires both the original Search Identifier and a Link Navigation Identifier)</wsdl:documentation>
+			<wsdl:input message="tns:AddressLink07aSoapIn" />
+			<wsdl:output message="tns:AddressLink07aSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="AssociateLinkSearch07a">
+			<wsdl:documentation>Method to Request a Credit Report for the specified Associate Link (requires both the original Search Identifier and a Link Navigation Identifier)</wsdl:documentation>
+			<wsdl:input message="tns:AssociateLink07aSoapIn" />
+			<wsdl:output message="tns:AssociateLink07aSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SubsequentSearch07a">
+			<wsdl:documentation>Method to Request a Subsequent copy of a Credit Report (requires the original Search Identifier)</wsdl:documentation>
+			<wsdl:input message="tns:Subsequent07aSoapIn"/>
+			<wsdl:output message="tns:Subsequent07aSoapOut"/>
+		</wsdl:operation>
+		<wsdl:operation name="SubsequentAddressLinkSearch07a">
+			<wsdl:documentation>Method to Request a Subsequent copy of a Credit Report Address Link Search (requires the original Search Identifier)</wsdl:documentation>
+			<wsdl:input message="tns:SubsequentAddressLink07aSoapIn" />
+			<wsdl:output message="tns:SubsequentAddressLink07aSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="SubsequentAssociateLinkSearch07a">
+			<wsdl:documentation>Method to Request a Subsequent copy of a Credit Report Associate Link Search (requires the original Search Identifier)</wsdl:documentation>
+			<wsdl:input message="tns:SubsequentAssociateLink07aSoapIn" />
+			<wsdl:output message="tns:SubsequentAssociateLink07aSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="ChangePassword07a">
+			<wsdl:documentation>Method for changing current user's password</wsdl:documentation>
+			<wsdl:input message="tns:ChangePassword07aSoapIn"/>
+			<wsdl:output message="tns:ChangePassword07aSoapOut"/>
+		</wsdl:operation>
+		<wsdl:operation name="LookupData07a">
+			<wsdl:documentation>Method for looking up reference data</wsdl:documentation>
+			<wsdl:input message="tns:LookupData07aSoapIn"/>
+			<wsdl:output message="tns:LookupData07aSoapOut"/>
+		</wsdl:operation>
+		<wsdl:operation name="Test07a">
+			<wsdl:documentation>Method for testing system availability</wsdl:documentation>
+			<wsdl:input message="tns:Test07aSoapIn"/>
+			<wsdl:output message="tns:Test07aSoapOut"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="Soap11" type="tns:Soap">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="Search07a">
+			<soap:operation soapAction="urn:callcredit.co.uk/soap:callreport7/Search07a" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:callcreditheaders" part="callcreditheaders" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddressLinkSearch07a">
+			<soap:operation soapAction="urn:callcredit.co.uk/soap:callreport7/AddressLinkSearch07a" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:callcreditheaders" part="callcreditheaders" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AssociateLinkSearch07a">
+			<soap:operation soapAction="urn:callcredit.co.uk/soap:callreport7/AssociateLinkSearch07a" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:callcreditheaders" part="callcreditheaders" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SubsequentSearch07a">
+			<soap:operation soapAction="urn:callcredit.co.uk/soap:callreport7/SubsequentSearch07a" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:callcreditheaders" part="callcreditheaders" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SubsequentAddressLinkSearch07a">
+			<soap:operation soapAction="urn:callcredit.co.uk/soap:callreport7/SubsequentAddressLinkSearch07a" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:callcreditheaders" part="callcreditheaders" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SubsequentAssociateLinkSearch07a">
+			<soap:operation soapAction="urn:callcredit.co.uk/soap:callreport7/SubsequentAssociateLinkSearch07a" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:callcreditheaders" part="callcreditheaders" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ChangePassword07a">
+			<soap:operation soapAction="urn:callcredit.co.uk/soap:callreport7/ChangePassword07a" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:callcreditheaders" part="callcreditheaders" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="LookupData07a">
+			<soap:operation soapAction="urn:callcredit.co.uk/soap:callreport7/LookupData07a" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:callcreditheaders" part="callcreditheaders" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Test07a">
+			<soap:operation soapAction="urn:callcredit.co.uk/soap:callreport7/Test07a" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+				<soap:header message="tns:callcreditheaders" part="callcreditheaders" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="Soap12" type="tns:Soap">
+		<soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="Search07a">
+			<soap12:operation soapAction="urn:callcredit.co.uk/soap:callreport7/Search07a" style="document"/>
+			<wsdl:input>
+				<soap12:header message="tns:callcreditheaders" part="callcreditheaders" use="literal"/>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AddressLinkSearch07a">
+			<soap12:operation soapAction="urn:callcredit.co.uk/soap:callreport7/AddressLinkSearch07a" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:callcreditheaders" part="callcreditheaders" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="AssociateLinkSearch07a">
+			<soap12:operation soapAction="urn:callcredit.co.uk/soap:callreport7/AssociateLinkSearch07a" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:callcreditheaders" part="callcreditheaders" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SubsequentSearch07a">
+			<soap12:operation soapAction="urn:callcredit.co.uk/soap:callreport7/SubsequentSearch07a" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:callcreditheaders" part="callcreditheaders" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SubsequentAddressLinkSearch07a">
+			<soap12:operation soapAction="urn:callcredit.co.uk/soap:callreport7/SubsequentAddressLinkSearch07a" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:callcreditheaders" part="callcreditheaders" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SubsequentAssociateLinkSearch07a">
+			<soap12:operation soapAction="urn:callcredit.co.uk/soap:callreport7/SubsequentAssociateLinkSearch07a" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:callcreditheaders" part="callcreditheaders" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="ChangePassword07a">
+			<soap12:operation soapAction="urn:callcredit.co.uk/soap:callreport7/ChangePassword07a" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+				<soap12:header message="tns:callcreditheaders" part="callcreditheaders" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="LookupData07a">
+			<soap12:operation soapAction="urn:callcredit.co.uk/soap:callreport7/LookupData07a" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+				<soap12:header message="tns:callcreditheaders" part="callcreditheaders" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Test07a">
+			<soap12:operation soapAction="urn:callcredit.co.uk/soap:callreport7/Test07a" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+				<soap12:header message="tns:callcreditheaders" part="callcreditheaders" use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="CallReport7">
+		<wsdl:documentation>The CallReport7 service is the fundamental gateway through which the entire functionality of the CallReport API is exposed.</wsdl:documentation>
+		<wsdl:port name="Soap11" binding="tns:Soap11">
+			<soap:address location="https://ct.callcreditsecure.co.uk/Services/CallReport/callreport7.asmx"/>
+		</wsdl:port>
+		<wsdl:port name="Soap12" binding="tns:Soap12">
+			<soap12:address location="https://ct.callcreditsecure.co.uk/Services/CallReport/callreport7.asmx"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
