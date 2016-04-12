@@ -4,13 +4,12 @@
   "description": "CallReport API Test",
   "main": "index.js",
   "dependencies": {
-    "node-soap-client": "^0.1.0",
-    "node-soap-api": "^0.5.1",
-    "soap": "^0.13.0"
+    "lodash": "^4.10.0",
+    "request": "^2.70.0",
+    "xml2js": "^0.4.16"
   },
   "devDependencies": {},
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/floridemai/callreport-api.git"
