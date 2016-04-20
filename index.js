@@ -1,165 +1,118 @@
-var _ = require('lodash');
-var xml2js = require('xml2js');
-var request = require('request');
+'use strict';
 
 var config = require('./config');
+var callReport = require('./lib/call-report');
 
-
-function buildRequest (body) {
-    var options = {
-        url: 'https://ct.callcreditsecure.co.uk/Services/CallReport/callreport7.asmx',
-        method: 'POST',
-        headers: {
-            'User-Agent': 'callreport7-api',
-            'Content-Type': 'text/xml; charset=utf-8',
-            'Accept': 'text/html,application/xhtml+xml,application/xml,text/xml;q=0.9,*/*;q=0.8',
-            'Accept-Encoding': 'none',
-            'Accept-Charset': 'utf-8',
-            'Connection': 'close'
-        },
-        followAllRedirects: true
-    };
-    options.body = body;
-
-    return options;
-}
-
-function getHeaderObject () {
-    return {
-        callcreditheaders: {
-            company: config.company,
-            username: config.username,
-            password: config.password
-        }
-    };
-}
-
-function addPrefix (obj, prefix) {
-    var build = {};
-    _.each(obj, function (value, key) {
-        if (key === '$') {
-            build['$'] = value;
-            return true;
-        }
-
-        var newKey = key.indexOf(':') !== -1 ? key : prefix + ':' + key;
-
-        var newValue = value;
-        if (_.isObject(value)) {
-            newValue = addPrefix(value, prefix);
-        }
-
-        build[newKey] = newValue;
-    })
-
-    return build;
-}
-
-function buildRequestBody (operationBody) {
-    var builder = new xml2js.Builder({
-        headless: true
-    });
-
-    var header = getHeaderObject();
-    var bodyObj = {
-        'soap:Envelope': {
-            $: {
-                'xmlns:soap': 'http://www.w3.org/2003/05/soap-envelope',
-                'xmlns:soap1': 'urn:callcredit.co.uk/soap:callreport7'
-            },
-            'soap:Header': header,
-            'soap:Body': operationBody
-        }
+var client = new callReport.Client({
+    url: 'https://ct.callcreditsecure.co.uk/Services/CallReport/callreport7.asmx',
+    headers: {
+        company: config.company,
+        username: config.username,
+        password: config.password
     }
-    var bodyObj = addPrefix(bodyObj, 'soap1');
-    return builder.buildObject(bodyObj);
-}
+});
 
 var Search07aInput = {
-    Search07a: {
-        SearchDefinition: {
-            payload: {
-                one: 1,
-                two: 2
+    SearchDefinition: {
+        payload: {
+            one: 1,
+            two: 2
+        },
+        yourreference: "ABC 123",
+        creditrequest: {
+            $: {
+                schemaversion: "7.0",
+                datasets: 2
             },
-            yourreference: "ABC 123",
-            creditrequest: {
-                $: {
-                    schemaversion: "7.0",
-                    datasets: 97
+            applicant: {
+                address: { // all are optional should do the match against what we have
+                    abodeno: "",
+                    buildingno: "1",
+                    buildingname: "",
+                    street1: "TOP GEAR LANE",
+                    street2: "",
+                    sublocality: "",
+                    locality: "",
+                    posttown: "TEST TOWN",
+                    postcode: "X9 9LF",
+                    //startdate: "2000-01-01",
+                    //enddate: "2010-01-01",
+                    //duration: "P5Y0M0D"
                 },
-                applicant: {
-                    address: { // all are optional should do the match against what we have
-                        abodeno: "",
-                        buildingno: "1",
-                        buildingname: "",
-                        street1: "TOP GEAR LANE",
-                        street2: "",
-                        sublocality: "",
-                        locality: "",
-                        posttown: "TEST TOWN",
-                        postcode: "X9 9LF",
-                        //startdate: "2000-01-01",
-                        //enddate: "2010-01-01",
-                        //duration: "P5Y0M0D"
-                    },
-                    name: {
-                        title: "MISS",
-                        forename: "JULIA",
-                        othernames: "",
-                        surname: "AUDI",
-                        suffix: ""
-                    },
-                    //dob: "1944-10-13",
-                    hho: 0, // bit - house hold check - ask
-                    tpoptout: 0, // bit - has opted out of use of third party data
-                    applicantdemographics: {
-                        contact: {
-                            email: {
-                                type: "03",
-                                address: "Julia.Audi@email.com"
-                            },
-                            telephone: {
-                                type: "13",
-                                std: "0123",
-                                number: "456789"
-                            }
+                name: {
+                    title: "MISS",
+                    forename: "JULIA",
+                    othernames: "",
+                    surname: "AUDI",
+                    suffix: ""
+                },
+                dob: "1944-10-13",
+
+                // A value of 1 indicates a household override check is requested for the applicant
+                // => HHO was requested but is not enabled in the User's Organisational Unit.
+                hho: 0,
+
+                // tpd - Third Party - Alerts - Optional (via admin setting)
+                // A value of 1 indicates that the applicant has opted out of use of third party data
+                tpoptout: 1,
+
+                applicantdemographics: {
+                    contact: {
+                        email: {
+                            type: "03",
+                            address: "Julia.Audi@email.com"
                         },
-                        employment: null
-                    }
-                },
-                score: 0, // bit: 0/1 - investigate
-                purpose: "AV", // The list of possible values can be obtained from the web method LookupData07a table id = searchpurpose - ask
-                credittype: "ZF", //The list of possible values can be obtained from the web method LookupData07a table id = credittype - ask
-                balorlim: 999999, //-ask
-                term: "P1Y0M0D", //-ask
-                transient: 0, //bit - ask no financial
-                autosearch: 0, //bit
-                autosearchmaximum: 3
-            }
+                        telephone: {
+                            type: "13",
+                            std: "0123",
+                            number: "456789"
+                        }
+                    },
+                    employment: null
+                }
+            },
+
+            // A value of 1 indicates that a score has been requested
+            score: 1,
+
+            // Credit request search purpose (The list of possible values can be obtained from the web method LookupData07a table id = searchpurpose)
+            purpose: "EC",
+            // ??? the only purposes that work:
+            // EC: "Employee Check (Non-SHARE)"
+            // 58: "Limited Subject Access Request (158)"
+            // XS: "Exempted Search (not available for input on a search request)"
+
+            // Credit type (The list of possible values can be obtained from the web method LookupData07a table id = credittype)
+            //credittype: "ZF",
+
+            // Balance or credit limit applied for
+            //balorlim: 999999999,
+
+            // Term of loan applied for
+            //term: "P1Y0M0D",
+
+            // A value of 1 indicates that no financial association will be generated from the application (transient association)
+            transient: 0,
+
+            // A value of 1 indicates that auto-searching of undeclared addresses has been requested
+            autosearch: 0,
+
+            // The maximum number of addresses to auto-search
+            autosearchmaximum: 999
         }
     }
 };
+client.Search07a(Search07aInput, function (err, resp) {
+    if (err) {
+        throw new Error(err);
+    }
 
-var LookupData07aInput = {
-    LookupData07a: 'searchpurpose'
-}
-var body = buildRequestBody(Search07aInput);
-var reqOptions = buildRequest(body);
-console.log(body);
+    var result = resp.SearchResult;
 
+    var score = parseInt(result.creditreport.applicant.creditscore.score._);
+    // the only possible value: 2 (Gauge Scorecard)
+    var scoreClass = parseInt(result.creditreport.applicant.creditscore.score.$.class);
+    console.log('Score: ' + score);
+    console.log('Score class: ' + scoreClass);
+});
 
-request(reqOptions, function (err, response, body) {
-    var parser = new xml2js.Parser({
-        explicitArray: false
-    });
-    parser.parseString(body,
-        function (err, result) {
-            console.log(result);
-            var respObj = result['soap:Envelope']['soap:Body'];
-            var text = respObj['soap:Fault']['soap:Reason']['soap:Text'];
-            console.log(text);
-            console.log(respObj);
-            console.log('Done');
-        });
-})
